@@ -7,4 +7,5 @@ app_name = 'app'
 
 urlpatterns = [
     path('', views.IndexView.as_view(), name='home'),
+    path('signup/', views.CreateProfile.as_view(), name='signup'),
 ]
