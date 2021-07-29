@@ -1,6 +1,6 @@
 from django.db import models
-
-# Create your models here.
+from django.db.models.signals import post_save, pre_save
+from django.dispatch import receiver
 from django.contrib.auth.models import User
 
 
@@ -15,4 +15,20 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+@receiver(signal=pre_save, sender=User)
+def create_username(sender, instance, *args, **kwargs):
+    instance.username = instance.first_name[:1] + instance.last_name
+
+
+@receiver(signal=post_save, sender=User)
+def create_or_update_profile(sender, instance, created, **kwargs):
+    if created:
+        location = getattr(instance, 'location', None)
+        birthday = getattr(instance, 'birthday', None)
+        profile = UserProfile.objects.create(user=instance, location=location, birthdate=birthday)
+        '''
+        send an email with django signal to the user that profile is created
+        '''
+    instance.userprofile.save()
 

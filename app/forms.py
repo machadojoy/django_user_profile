@@ -11,6 +11,15 @@ class CustomUserCreateForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email', 'username']
+        fields = ['first_name', 'last_name', 'email']
+
+    def save(self, commit=True):
+        user = super(UserCreationForm, self).save(commit=False)
+        password = self.cleaned_data.get('password1')
+        user.set_password(password)
+        user.location = self.cleaned_data.get('location')
+        user.birthday = self.cleaned_data.get('birthday')
+        user.save()
+        return user
 
 UserProfileFormset = inlineformset_factory(User, UserProfile, fields=('location',))

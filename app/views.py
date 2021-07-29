@@ -17,6 +17,5 @@ class CreateProfile(generic.CreateView):
     success_url = "/"
 
     def form_valid(self, form):
-        print("test")
         form.save()
-        return super().form_valid(form)
+        return super(CreateProfile, self).form_valid(form)
