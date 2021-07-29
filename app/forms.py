@@ -7,6 +7,7 @@ from django.forms.models import inlineformset_factory
 class CustomUserCreateForm(UserCreationForm):
     location = forms.CharField()
     birthday = forms.DateField()
+    image = forms.FileField()
     email = forms.EmailField()
 
     class Meta:
@@ -19,6 +20,7 @@ class CustomUserCreateForm(UserCreationForm):
         user.set_password(password)
         user.location = self.cleaned_data.get('location')
         user.birthday = self.cleaned_data.get('birthday')
+        user.image = self.cleaned_data.get('image')
         user.save()
         return user
 
