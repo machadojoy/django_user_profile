@@ -18,6 +18,7 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.user.username
 
+
 @receiver(signal=pre_save, sender=User)
 def create_username(sender, instance, *args, **kwargs):
     instance.username = instance.first_name[:1] + instance.last_name
