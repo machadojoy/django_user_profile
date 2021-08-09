@@ -5,6 +5,7 @@
         <h1>Welcome!!!</h1>
         {% if user.is_authenticated %}
             <a class="nav-link" href="{% url 'app:logout' %}">Logout</a>
+            <a href="{% url 'app:edit' user.userprofile.pk %}">Edit Profile</a>
         {% else %}
             <a href="{% url 'app:login' %}">Login</a>
         {% endif %}

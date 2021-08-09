@@ -1,7 +1,9 @@
 from django.shortcuts import render
 from django.views import generic
 from .task import add
-from .forms import CustomUserCreateForm
+from .forms import CustomUserCreateForm, EditUserProfileForm
+from .models import UserProfile
+from django.contrib.auth.models import User
 from django.urls import reverse
 from django.shortcuts import render, redirect
 from django.views.generic.detail import SingleObjectMixin
@@ -23,7 +25,6 @@ class CreateProfile(generic.CreateView):
         form = CustomUserCreateForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            print(form.cleaned_data)
             messages.success(request, "Account was created for " + form.cleaned_data["first_name"]
                              + " " + form.cleaned_data["last_name"])
             return redirect(self.success_url)
@@ -57,3 +58,10 @@ def logout_request(request):
 	logout(request)
 	messages.info(request, "You have successfully logged out.")
 	return redirect('/')
+
+
+class EditView(generic.UpdateView):
+    model = UserProfile
+    template_name = "signup.html"
+    form_class = EditUserProfileForm
+    success_url = "/"
